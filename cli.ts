@@ -34,28 +34,42 @@ const main = async () => {
 
   gitSpinner.start();
 
-  exec(`git clone https://github.com/lassejlv/nodejs-typescript-starter ${ans.dir}`, (error, stdout, stderr) => {
-    if (error) {
-      gitSpinner.fail("Error while cloning repo!");
-      process.exit(1);
-    }
+  const promise = new Promise(async (res, rej) => {
+    exec(`git clone https://github.com/lassejlv/nodejs-typescript-starter ${ans.dir}`, async (error, stdout, stderr) => {
+      if (error) {
+        gitSpinner.fail("Error while cloning repo!");
+        rej(error);
+        process.exit(1);
+      }
 
-    gitSpinner.succeed("Cloned repo!");
+      gitSpinner.succeed("Cloned repo!");
 
-    if (ans.install) {
-      depInstall.start();
-      exec(`cd ${process.cwd()}/${ans.dir} && npm install`, (installError, installStdout, installStderr) => {
-        if (installError) {
-          depInstall.fail(`Error installing dependencies: ${installStderr}`);
-          process.exit(1);
-        } else {
+      if (ans.install) {
+        depInstall.start();
+        exec(`cd ${process.cwd()}/${ans.dir} && npm install`, (installError, installStdout, installStderr) => {
+          if (installError) {
+            depInstall.fail(`Error installing dependencies: ${installStderr}`);
+            rej(installError);
+            process.exit(1);
+          }
+
           depInstall.succeed("Dependencies installed!");
-        }
-      });
-    }
+          res(true);
+        });
+      }
 
-    console.log("Done!");
-    process.exit(0);
+      if (!ans.install) {
+        console.log("Skipping install...");
+        res(true);
+      }
+    });
+  });
+
+  promise.then(() => {
+    console.log("\nDone!");
+    console.log(`cd ${ans.dir} && npm run dev`);
+    console.log("\nFor production build: npm run build && npm start");
+    console.log("\nHappy coding :)");
   });
 };
 

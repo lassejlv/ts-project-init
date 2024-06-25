@@ -1,10 +1,14 @@
 {
   "name": "ts-project-init",
   "description": "Create a TypeScript app with zero configuration.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "main": "dist/cli.js",
   "bin": "dist/cli.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lassejlv/ts-project-init.git"
+  },
   "scripts": {
     "dev": "tsx cli.ts",
     "build": "tsc",
