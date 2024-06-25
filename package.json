@@ -1,0 +1,22 @@
+{
+  "name": "ts-project-init",
+  "description": "Create a TypeScript app with zero configuration.",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/cli.js",
+  "bin": "dist/cli.js",
+  "scripts": {
+    "dev": "tsx cli.ts",
+    "build": "tsc",
+    "start": "node ."
+  },
+  "dependencies": {
+    "@types/inquirer": "^9.0.7",
+    "@types/mime": "^3.0.4",
+    "@types/node": "^20.14.8",
+    "inquirer": "^9.2.23",
+    "ora": "^8.0.1",
+    "tsx": "^4.15.7",
+    "typescript": "^5.5.2"
+  }
+}
