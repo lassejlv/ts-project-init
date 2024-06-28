@@ -6,6 +6,7 @@ import ora from "ora";
 import fs from "fs";
 
 const main = async () => {
+  const checkGitSpinner = ora("Checking if git is installed...");
   const gitSpinner = ora("Cloning repo...");
   const depInstall = ora("Installing dep using npm...");
 
@@ -35,10 +36,22 @@ const main = async () => {
   gitSpinner.start();
 
   const promise = new Promise(async (res, rej) => {
+    checkGitSpinner.start();
+
+    // Check if git is installed
+    exec("git --version", async (err) => {
+      if (err) {
+        checkGitSpinner.fail("Git is not installed. Go to https://git-scm.com/downloads and install it.");
+        process.exit(1);
+      } else {
+        checkGitSpinner.succeed("Git is installed!");
+      }
+    });
+
     exec(`git clone https://github.com/lassejlv/nodejs-typescript-starter ${ans.dir}`, async (error, stdout, stderr) => {
       if (error) {
         gitSpinner.fail("Error while cloning repo!");
-        rej(error);
+        rej(error.message);
         process.exit(1);
       }
 

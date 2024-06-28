@@ -1,7 +1,7 @@
 {
   "name": "ts-project-init",
   "description": "Create a TypeScript app with zero configuration.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "main": "dist/cli.js",
   "bin": "dist/cli.js",
